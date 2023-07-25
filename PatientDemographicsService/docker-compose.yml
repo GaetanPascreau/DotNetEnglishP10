@@ -6,7 +6,8 @@ services:
           context: .
           dockerfile: Dockerfile
         ports:
-          - "32768:443"
+          #- "32768:443"
+          - "8080:80"
         depends_on:
           - sqlserver
     sqlserver:

@@ -1,5 +1,9 @@
 using PatientDemographicsService.Models;
 using Microsoft.EntityFrameworkCore;
+using PatientDemographicsService.Contracts;
+using PatientDemographicsService.Repositories;
+using System.Reflection;
+using Microsoft.OpenApi.Models;
 
 namespace PatientDemographicsService
 {
@@ -14,7 +18,14 @@ namespace PatientDemographicsService
             builder.Services.AddDbContext<MediscreenDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PatientDemographicsService", Version = "v1" });
+            });
 
             var app = builder.Build();
 
@@ -24,12 +35,18 @@ namespace PatientDemographicsService
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PatientDemographicsService v1"));
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PatientDemographicsService v1"));
 
             app.UseAuthorization();
 
