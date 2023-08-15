@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PatientDemographicsService.Contracts;
 using PatientDemographicsService.Models;
+using System.Reflection.Metadata;
 
 namespace PatientDemographicsService.Repositories
 {
@@ -26,6 +27,37 @@ namespace PatientDemographicsService.Repositories
             }
 
             return await _context.Patients.FindAsync(id);
+        }
+
+        public async Task UpdatePatient(Patient patient)
+        {
+            var patientToUpdate = await _context.Patients.FirstOrDefaultAsync(app => app.Id == patient.Id);
+
+            if (patientToUpdate is null)
+            {
+                throw new ArgumentNullException(nameof(patient));
+            }
+
+            patientToUpdate.FirstName = patient.FirstName;
+            patientToUpdate.LastName = patient.LastName;
+            patientToUpdate.DateOfBirth = patient.DateOfBirth;
+            patientToUpdate.Sex = patient.Sex;
+            patientToUpdate.HomeAdress = patient.HomeAdress;
+            patientToUpdate.PhoneNumber = patient.PhoneNumber;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task CreatePatient(Patient patient)
+        {
+            if (patient == null)
+            {
+                throw new ArgumentNullException(nameof(patient));
+            }
+
+            await _context.Patients.AddAsync(patient);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

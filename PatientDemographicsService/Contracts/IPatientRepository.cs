@@ -6,5 +6,7 @@ namespace PatientDemographicsService.Contracts
     {
         Task<Patient> GetPatientById(int? id);
         Task<List<Patient>> GetAllPatients();
+        Task UpdatePatient(Patient patient);
+        Task CreatePatient(Patient patient);
     }
 }

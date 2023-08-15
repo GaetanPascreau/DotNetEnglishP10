@@ -49,7 +49,7 @@ namespace MediscreenTests
             var controller = new PatientsController(mockRepository.Object);
 
             // Act
-            var result = await controller.GetAsync();
+            var result = await controller.Index();
 
             // Assert
             var objectResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -79,7 +79,7 @@ namespace MediscreenTests
             var controller = new PatientsController(mockRepository.Object);
 
             // ACT
-            var result = await controller.GetByIdAsync(patientId);
+            var result = await controller.Details(patientId);
 
             // ASSERT
             var objectResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -99,11 +99,97 @@ namespace MediscreenTests
             var controller = new PatientsController(mockRepository.Object);
 
             // ACT
-            var result = await controller.GetByIdAsync(patientId);
+            var result = await controller.Details(patientId);
 
             // ASSERT
             var objectResult = Assert.IsType<ActionResult<Patient>>(result);
             Assert.Null(objectResult.Value);
+        }
+
+        [Fact]
+        public async Task PutAsync_ShouldReturnNoContent_WhenPatientExists()
+        {
+            // ARRANGE
+            int patientId = 1;
+            var existingPatient = new Patient
+            {
+                Id = patientId,
+                FirstName = "Lucas",
+                LastName = "Ferguson",
+                DateOfBirth = new DateTime(1968, 06, 22),
+                Sex = 'M',
+                HomeAdress = "2 Warren Street",
+                PhoneNumber = "387-866-1399"
+            };
+
+            // Set up the mock repository behavior
+            var mockRepository = new Mock<IPatientRepository>();
+            mockRepository.Setup(repo => repo.GetPatientById(patientId)).ReturnsAsync(existingPatient);
+            var controller = new PatientsController(mockRepository.Object);
+
+            // ACT
+            var result = await controller.PutAsync(existingPatient);
+
+            // ASSERT
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task PutAsync_ShouldReturnNotFound_WhenPatientDoesNotExist()
+        {
+            // ARRANGE
+            int patientId = 11;
+            var nonExistingPatient = new Patient
+            {
+                Id = patientId,
+                FirstName = "Price",
+                LastName = "Dana",
+                DateOfBirth = new DateTime(1978, 08, 12),
+                Sex = 'F',
+                HomeAdress = "22 America blvd",
+                PhoneNumber = "547-963-2577"
+            };
+
+            // Set up the mock repository behavior
+            var mockRepository = new Mock<IPatientRepository>();
+            mockRepository.Setup(repo => repo.GetPatientById(patientId)).ReturnsAsync((Patient)null);
+            var controller = new PatientsController(mockRepository.Object);
+
+            // ACT
+            var result = await controller.PutAsync(nonExistingPatient);
+
+            // ASSERT
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task PostAsync_ShouldReturnNoContent_WhenPatientCreated()
+        {
+            // ARRANGE
+            var patient = new Patient
+            {
+                FirstName = "Darth",
+                LastName = "Vador",
+                DateOfBirth = new DateTime(1955, 05, 31),
+                Sex = 'M',
+                HomeAdress = "2 balck Star avenue",
+                PhoneNumber = "666-666-6666"
+            };
+
+            // Set up the mock repository and controller
+            var mockRepository = new Mock<IPatientRepository>();
+            var controller = new PatientsController(mockRepository.Object);
+
+            // ACT
+            var result = await controller.PostAsync(patient);
+
+            // ASSERT
+            Assert.IsType<NoContentResult>(result);
+
+            mockRepository.Verify(repo => repo.CreatePatient(It.Is<Patient>(p =>
+                p.FirstName == patient.FirstName &&
+                p.LastName == patient.LastName
+            )), Times.Once);
         }
     }
 }

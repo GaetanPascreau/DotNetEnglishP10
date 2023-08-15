@@ -18,7 +18,7 @@ namespace PatientDemographicsService.Controllers
 
         // GET /patients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patient>>> GetAsync()
+        public async Task<ActionResult<IEnumerable<Patient>>> Index()
         {
             var patients = await _patientRepository.GetAllPatients();
             return Ok(patients);
@@ -26,7 +26,7 @@ namespace PatientDemographicsService.Controllers
 
         // GET /patients/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patient>> GetByIdAsync(int id)
+        public async Task<ActionResult<Patient>> Details(int id)
         {
             var patient = await _patientRepository.GetPatientById(id);
 
@@ -36,6 +36,32 @@ namespace PatientDemographicsService.Controllers
             }
 
             return Ok(patient);
+        }
+
+        // PUT /patients/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(Patient patient)
+        {
+            //First check if the patient to update exists in the db
+            var patientToUpdate = await _patientRepository.GetPatientById(patient.Id);
+
+            if (patientToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            await _patientRepository.UpdatePatient(patient);
+
+            return NoContent();
+        }
+
+        // POST /patients
+        [HttpPost]
+        public async Task<IActionResult> PostAsync(Patient patient)
+        {
+            await _patientRepository.CreatePatient(patient);
+
+            return NoContent();
         }
     }
 }

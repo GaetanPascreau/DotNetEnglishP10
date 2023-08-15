@@ -67,6 +67,70 @@ namespace MediscreenTests
             }
         }
 
+        [Fact]
+        public async void TestPUTPatientToDatabase()
+        {
+            // Create a connection to the SQL SERVER database
+            var connection = new ConnectionClass();
+            using (var context = connection.CreateContextSQlDatabase())
+            {
+                //ARRANGE
+                // There is no need to create patient in order to test the GetAllPatients() method as
+                // The database should automatically be seeded with 10 patients when the solution builds
+
+                // ACT
+                //Create the SQL SERVER database and Get a Patient by its id
+                var patientRepository = new PatientRepository(context);
+                var patientToUpdate = await patientRepository.GetPatientById(1);
+
+                // modify the patient
+                patientToUpdate.LastName = "Doe";
+
+                // Update the Patient in the database
+                await patientRepository.UpdatePatient(patientToUpdate);
+
+                // Recover the updated Patient from the database
+                var result = await patientRepository.GetPatientById(1);
+
+                // ASSERT
+                // Test that the Patient was created inside the SQL SERVER database
+                Assert.Equal("Doe", result.LastName);
+            }
+        }
+
+        [Fact]
+        public async void TestPOSTPatientToDatabase()
+        {
+            // Create a connection to the SQL SERVER database
+            var connection = new ConnectionClass();
+            using (var context = connection.CreateContextSQlDatabase())
+            {
+                //ARRANGE
+                // Create a new Patient
+                var patient = new Patient
+                {
+                    FirstName = "Sarah",
+                    LastName = "Connor",
+                    DateOfBirth = new DateTime(1976, 11, 14),
+                    Sex = 'F',
+                    HomeAdress = "45 Madison Avenue",
+                    PhoneNumber = "604 544 6812"
+                };
+
+                // ACT
+                //Create the SQL SERVER database and save the new Patient inside of it
+                var patientRepository = new PatientRepository(context);
+                await patientRepository.CreatePatient(patient);
+
+                // Recover the created Patient from the database
+                var result = await patientRepository.GetPatientById(patient.Id);
+
+                // ASSERT
+                // Test that the Patient was created inside the SQL SERVER database
+                Assert.NotNull(result);
+                Assert.Equal(result.LastName, "Connor");
+            }
+        }
 
         //Add a class containing the methods that create the connections
         //this class implement the IDisposable interface to free unmanaged resources (= close the connection) at the end of each test

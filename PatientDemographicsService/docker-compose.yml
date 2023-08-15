@@ -6,10 +6,10 @@ services:
           context: .
           dockerfile: Dockerfile
         ports:
-          #- "32768:443"
           - "8080:80"
         depends_on:
           - sqlserver
+
     sqlserver:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
         ports:
@@ -17,3 +17,31 @@ services:
         environment:
             SA_PASSWORD: "P@ssword1"
             ACCEPT_EULA: "Y"
+
+    mediscreenui: # Add the MediscreenUI service
+        build:
+            context: ../MediscreenUI # Specify the path to the MediscreenUI project
+            dockerfile: Dockerfile
+        ports:
+          - "32768:80" # Map port 32768 on the host to port 80 in the container
+        depends_on:
+          - patientservice
+
+
+
+    #mediscreenui:
+    #    build:
+    #      context: .
+    #      dockerfile: ../MediscreenUI/Dockerfile
+    #    ports:
+    #      - "32781:80"
+
+    #mediscreenportal:
+    #    build:
+    #        context: ../MediscreenPortal/Dockerfile
+    #        dockerfile: Dockerfile
+    #    ports:
+    #      - "32768:80"
+    #    depends_on:
+    #      - patientservice
+    
