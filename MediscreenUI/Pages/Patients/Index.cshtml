@@ -4,6 +4,9 @@
     ViewData["Title"] = "Patients List";
 }
 
+<a asp-page="./Create" class="btn btn-primary">New Patient</a>
+<br />
+
 <h1>Patients List</h1>
 
 <table class="table">
@@ -25,8 +28,11 @@
                 <td>@patient.LastName</td>
                 <td>@patient.DateOfBirth.ToShortDateString()</td>
                 <td>@patient.Sex</td>
-                <td>@patient.HomeAddress</td>
+                <td>@patient.HomeAdress</td>
                 <td>@patient.PhoneNumber</td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@patient.Id" class="btn btn-primary">Edit</a>
+                </td>
             </tr>
         }
     </tbody>

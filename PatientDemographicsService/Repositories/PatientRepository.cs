@@ -29,7 +29,7 @@ namespace PatientDemographicsService.Repositories
             return await _context.Patients.FindAsync(id);
         }
 
-        public async Task UpdatePatient(Patient patient)
+        public async Task<bool> UpdatePatient(Patient patient)
         {
             var patientToUpdate = await _context.Patients.FirstOrDefaultAsync(app => app.Id == patient.Id);
 
@@ -46,6 +46,8 @@ namespace PatientDemographicsService.Repositories
             patientToUpdate.PhoneNumber = patient.PhoneNumber;
 
             await _context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task CreatePatient(Patient patient)

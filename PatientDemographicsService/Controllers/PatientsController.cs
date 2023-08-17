@@ -40,7 +40,7 @@ namespace PatientDemographicsService.Controllers
 
         // PUT /patients/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Patient patient)
+        public async Task<IActionResult> PutAsync([FromBody] Patient patient)
         {
             //First check if the patient to update exists in the db
             var patientToUpdate = await _patientRepository.GetPatientById(patient.Id);
@@ -50,9 +50,16 @@ namespace PatientDemographicsService.Controllers
                 return NotFound();
             }
 
-            await _patientRepository.UpdatePatient(patient);
+            var result = await _patientRepository.UpdatePatient(patient);
 
-            return NoContent();
+            if (result)
+            {
+                return Ok(patient);
+            }
+            else
+            {
+                return BadRequest();
+            }   
         }
 
         // POST /patients

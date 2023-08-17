@@ -26,22 +26,5 @@ services:
           - "32768:80" # Map port 32768 on the host to port 80 in the container
         depends_on:
           - patientservice
-
-
-
-    #mediscreenui:
-    #    build:
-    #      context: .
-    #      dockerfile: ../MediscreenUI/Dockerfile
-    #    ports:
-    #      - "32781:80"
-
-    #mediscreenportal:
-    #    build:
-    #        context: ../MediscreenPortal/Dockerfile
-    #        dockerfile: Dockerfile
-    #    ports:
-    #      - "32768:80"
-    #    depends_on:
-    #      - patientservice
-    
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
