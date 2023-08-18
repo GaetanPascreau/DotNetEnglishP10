@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PatientDemographicsService.Models;
 
@@ -11,9 +12,11 @@ using PatientDemographicsService.Models;
 namespace PatientDemographicsService.Migrations
 {
     [DbContext(typeof(MediscreenDbContext))]
-    partial class MediscreenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230818160730_MakeHomeAdressAndPhoneNumberNullable")]
+    partial class MakeHomeAdressAndPhoneNumberNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

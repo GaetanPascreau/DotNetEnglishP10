@@ -1,3 +1,6 @@
+using FluentValidation;
+using MediscreenUI.Models;
+
 namespace MediscreenUI
 {
     public class Program
@@ -9,6 +12,7 @@ namespace MediscreenUI
             // Add services to the container.
             builder.Services.AddHttpClient();
             builder.Services.AddRazorPages();
+            builder.Services.AddScoped<IValidator<PatientViewModel>, PatientValidator>();
 
             var app = builder.Build();
 
