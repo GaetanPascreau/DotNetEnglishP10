@@ -18,6 +18,8 @@
             <th>Sex</th>
             <th>Home Address</th>
             <th>Phone Number</th>
+            <th>Patient Notes</th>
+
         </tr>
     </thead>
     <tbody>
@@ -30,6 +32,9 @@
                 <td>@patient.Sex</td>
                 <td>@patient.HomeAdress</td>
                 <td>@patient.PhoneNumber</td>
+                <td>
+                    <a asp-page="../Notes/PatientNotes" asp-route-id="@patient.Id" class="btn btn-warning">Notes</a>
+                </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@patient.Id" class="btn btn-primary">Edit</a>
                 </td>

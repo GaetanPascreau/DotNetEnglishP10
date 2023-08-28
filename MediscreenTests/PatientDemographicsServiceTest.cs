@@ -145,7 +145,6 @@ namespace MediscreenTests
                 var provider = new ServiceCollection().AddEntityFrameworkSqlServer().BuildServiceProvider();
                 var builder = new DbContextOptionsBuilder<MediscreenDbContext>();
                 builder.UseSqlServer($"Server=192.168.1.227,1433;Database=MediscreenPatientsTest1;User=sa;Password=P@ssword1;Encrypt=False;").UseInternalServiceProvider(provider);
-
                 var context = new MediscreenDbContext(builder.Options);
                 if (context != null)
                 {

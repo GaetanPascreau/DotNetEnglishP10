@@ -28,3 +28,30 @@ services:
           - patientservice
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
+
+    mongo:
+        image: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: gaetanpascreau
+            MONGO_INITDB_ROOT_PASSWORD: npSaR6e4P8anvZv2
+
+    mongo-express:
+        image: mongo-express
+        ports:
+          - 8081:8081
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: gaetanpascreau
+            ME_CONFIG_MONGODB_ADMINPASSWORD: npSaR6e4P8anvZv2
+            ME_CONFIG_MONGODB_URL: mongodb://gaetanpascreau:npSaR6e4P8anvZv2@mongo:27017/
+
+    noteservice:
+        build:
+            context: ../DoctorNotesService
+            dockerfile: Dockerfile
+        ports:
+          - "32770:80"
+        depends_on:
+          - mongo-express
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
