@@ -57,3 +57,14 @@ services:
           - mongo-express
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
+
+    authenticationservice:
+        build:
+            context: ../AuthenticationService
+            dockerfile: Dockerfile
+        ports:
+          - "32769:80"
+        depends_on:
+          - sqlserver
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
