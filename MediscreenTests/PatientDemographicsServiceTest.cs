@@ -26,6 +26,8 @@ namespace MediscreenTests
 
                 // ASSERT
                 // Test that all the patients are persistently saved inside the SQL SERVER database
+                //NB : because TestDeletePatientFromDatabase remove the patient with id = 10,
+                //we need to restart the application each time we need to run this test, otherwise the last Assert will fail.
                 Assert.NotEmpty(result.Result);
                 Assert.IsType<List<Patient>>(result.Result);
                 Assert.Collection(result.Result, item => Assert.Contains("Ferguson", item.LastName),
@@ -129,6 +131,33 @@ namespace MediscreenTests
                 // Test that the Patient was created inside the SQL SERVER database
                 Assert.NotNull(result);
                 Assert.Equal(result.LastName, "Connor");
+            }
+        }
+
+        [Fact]
+        public async void TestDELETEPatientFromDatabase()
+        {
+            // Create a connection to the SQL SERVER database
+            var connection = new ConnectionClass();
+            using (var context = connection.CreateContextSQlDatabase())
+            {
+                // ARRANGE
+                //ARRANGE
+                // There is no need to create patient in order to test the DeletePatient() method as
+                // The database should automatically be seeded with 10 patients when the solution builds (with id = 1 to 10)
+
+                //Create the SQL SERVER database and save the new Patient inside of it
+                var patientRepository = new PatientRepository(context);
+
+                // ACT
+                // Remove the Patient with id = 10 from the database
+                await patientRepository.DeletePatient(10);
+
+                // Try to retrieve the deleted patient
+                var result = await patientRepository.GetPatientById(10);
+
+                // ASSERT
+                Assert.Null(result);
             }
         }
 

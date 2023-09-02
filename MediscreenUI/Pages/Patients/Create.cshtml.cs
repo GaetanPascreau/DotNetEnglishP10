@@ -43,12 +43,6 @@ namespace MediscreenUI.Pages.Patients
                 return Page();
             }
 
-            //if (!ModelState.IsValid)
-            //{
-            //    Console.WriteLine("Model State is invalid !");
-            //    return Page();
-            //}
-
             var content = new StringContent(JsonConvert.SerializeObject(patient), Encoding.UTF8, "application/json");
             Console.WriteLine(content.ReadAsStringAsync());
             var response = await _httpClient.PostAsync($"patients", content);

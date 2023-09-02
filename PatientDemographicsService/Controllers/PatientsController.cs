@@ -40,10 +40,15 @@ namespace PatientDemographicsService.Controllers
 
         // PUT /patients/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync([FromBody] Patient patient)
+        public async Task<IActionResult> PutAsync(int id, [FromBody] Patient patient)
         {
+            if (id != patient.Id)
+            {
+                return BadRequest("The 'id' in the url doesn't match the 'id' in the submitted patient object.");
+            }
+
             //First check if the patient to update exists in the db
-            var patientToUpdate = await _patientRepository.GetPatientById(patient.Id);
+            var patientToUpdate = await _patientRepository.GetPatientById(id);
 
             if (patientToUpdate == null)
             {
@@ -54,7 +59,7 @@ namespace PatientDemographicsService.Controllers
 
             if (result)
             {
-                return Ok(patient);
+                return NoContent();
             }
             else
             {
@@ -69,6 +74,19 @@ namespace PatientDemographicsService.Controllers
             await _patientRepository.CreatePatient(patient);
 
             return NoContent();
+        }
+
+        // DELETE /patients/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            await _patientRepository.DeletePatient(id);
+            return Ok($"Patient with id = {id} was deleted.");
         }
     }
 }

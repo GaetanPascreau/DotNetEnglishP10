@@ -13,6 +13,7 @@ namespace MediscreenUI
             builder.Services.AddHttpClient();
             builder.Services.AddRazorPages();
             builder.Services.AddScoped<IValidator<PatientViewModel>, PatientValidator>();
+            builder.Services.AddScoped<IValidator<NoteViewModel>, NoteValidator>();
 
             var app = builder.Build();
 

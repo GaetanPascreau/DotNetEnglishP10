@@ -71,7 +71,8 @@ namespace MediscreenTests
             using (var connection = new ConnectionClass())
             {
                 // ARRANGE
-                var id = "D955E83A3F07F077262F8ADC";
+                var id = "D955E83A3F07F077262F8ADC".ToLower();
+
                 var expectedNote = new Note { Id = id };
            
 
@@ -94,8 +95,8 @@ namespace MediscreenTests
             using (var connection = new ConnectionClass())
             {
                 // ARRANGE
-                var id1 = "8F4BF49E8DF1A19DBF7D7C82";
-                var id2 = "7D5883CF4095DB2974599C57";
+                var id1 = "8F4BF49E8DF1A19DBF7D7C82".ToLower();
+                var id2 = "7D5883CF4095DB2974599C57".ToLower();
                 var expectedNotes = new List<Note>
                 {
                     new Note { Id = id1 },
@@ -126,7 +127,7 @@ namespace MediscreenTests
             using (var connection = new ConnectionClass())
             {
                 // ARRANGE
-                var id = "8F4BF49E8DF1A19DBF7D7C82";
+                var id = "8F4BF49E8DF1A19DBF7D7C82".ToLower();
 
                 var initialNote = new Note {
                     Id = id,
@@ -197,13 +198,13 @@ namespace MediscreenTests
 
             public ConnectionClass()
             {
-                var connectionString = "mongodb://gaetanpascreau:npSaR6e4P8anvZv2@mongo:27017/MediscreenNoSql";
-                //var databaseName = "MediscreenNoSql";
+                var connectionString = "mongodb://gaetanpascreau:npSaR6e4P8anvZv2@127.0.0.1:27017/";
+                var databaseName = "MediscreenNoSql";
                 var collectionName = "notes";
                 var settings = new NoteStoreDatabaseSettings 
                 { 
                     CollectionName = collectionName,
-                    DatabaseName = "MediscreenNoSql",
+                    DatabaseName = databaseName,
                     ConnectionString = connectionString
                 };
 

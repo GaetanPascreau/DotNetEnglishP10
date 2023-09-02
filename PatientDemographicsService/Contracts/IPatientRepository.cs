@@ -8,5 +8,6 @@ namespace PatientDemographicsService.Contracts
         Task<List<Patient>> GetAllPatients();
         Task<bool> UpdatePatient(Patient patient);
         Task CreatePatient(Patient patient);
+        Task DeletePatient(int? id);
     }
 }

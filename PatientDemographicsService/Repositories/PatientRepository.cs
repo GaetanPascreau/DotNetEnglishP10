@@ -61,5 +61,19 @@ namespace PatientDemographicsService.Repositories
 
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeletePatient(int? id)
+        {
+            var patient = await _context.Patients.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (patient == null)
+            {
+                throw new ArgumentNullException(nameof(patient));
+            }
+
+            _context.Patients.Remove(patient);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -5,7 +5,7 @@
     ViewData["Title"] = "Patient Notes List";
 }
 
-<a asp-page="./Create" class="btn btn-success">New Note</a>
+<a asp-page="./Create" asp-route-id="@Model.Patient.Id" class="btn btn-success">New Note</a>
 <br />
 
 <h1>Patient Notes List</h1>
@@ -22,9 +22,9 @@
         {
             <tr>
                 <td>@Model.Patient.FirstName @Model.Patient.LastName</td>
-                <td>@note.NoteContent</td>
+                <td style="white-space: pre;">@note.NoteContent</td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@note.Id" class="btn btn-primary">Edit Patient</a>
+                    <a asp-page="./Edit" asp-route-id="@note.Id" class="btn btn-primary">Edit Note</a>
                 </td>
             </tr>
         }

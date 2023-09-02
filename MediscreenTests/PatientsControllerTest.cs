@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Moq;
+using Newtonsoft.Json;
 using PatientDemographicsService.Contracts;
 using PatientDemographicsService.Controllers;
 using PatientDemographicsService.Models;
@@ -122,13 +123,25 @@ namespace MediscreenTests
                 PhoneNumber = "387-866-1399"
             };
 
+            var updatedPatient = new Patient
+            {
+                Id = patientId,
+                FirstName = "Gill",
+                LastName = "Ferguson",
+                DateOfBirth = new DateTime(1968, 06, 22),
+                Sex = 'F',
+                HomeAdress = "2 Warren Street",
+                PhoneNumber = "387-866-1399"
+            };
+
             // Set up the mock repository behavior
             var mockRepository = new Mock<IPatientRepository>();
-            mockRepository.Setup(repo => repo.GetPatientById(patientId)).ReturnsAsync(existingPatient);
+            mockRepository.Setup(m => m.GetPatientById(patientId)).ReturnsAsync(existingPatient);
+            mockRepository.Setup(repo => repo.UpdatePatient(updatedPatient)).ReturnsAsync(true);
             var controller = new PatientsController(mockRepository.Object);
 
             // ACT
-            var result = await controller.PutAsync(existingPatient);
+            var result = await controller.PutAsync(patientId, updatedPatient);
 
             // ASSERT
             Assert.IsType<NoContentResult>(result);
@@ -156,7 +169,7 @@ namespace MediscreenTests
             var controller = new PatientsController(mockRepository.Object);
 
             // ACT
-            var result = await controller.PutAsync(nonExistingPatient);
+            var result = await controller.PutAsync(patientId, nonExistingPatient);
 
             // ASSERT
             Assert.IsType<NotFoundResult>(result);
@@ -172,7 +185,7 @@ namespace MediscreenTests
                 LastName = "Vador",
                 DateOfBirth = new DateTime(1955, 05, 31),
                 Sex = 'M',
-                HomeAdress = "2 balck Star avenue",
+                HomeAdress = "2 Black Star avenue",
                 PhoneNumber = "666-666-6666"
             };
 
@@ -190,6 +203,34 @@ namespace MediscreenTests
                 p.FirstName == patient.FirstName &&
                 p.LastName == patient.LastName
             )), Times.Once);
+        }
+
+        [Fact]
+        public async Task RemoveAsync_ShouldReturnOk_WhenPatientDeleted()
+        {
+            // ARRANGE
+            int patientId = 11;
+            var ExistingPatient = new Patient
+            {
+                Id = patientId,
+                FirstName = "Jenny",
+                LastName = "Garth",
+                DateOfBirth = new DateTime(1981, 05, 03),
+                Sex = 'F',
+                HomeAdress = "118 Mississippi Ave",
+                PhoneNumber = "645-744-0694"
+            };
+
+            // Set up the mock repository behavior
+            var mockRepository = new Mock<IPatientRepository>();
+            mockRepository.Setup(repo => repo.GetPatientById(patientId)).ReturnsAsync(ExistingPatient);
+            var controller = new PatientsController(mockRepository.Object);
+
+            // ACT
+            var result = await controller.DeleteAsync(patientId);
+
+            // ASSERT
+            Assert.IsType<OkObjectResult>(result);
         }
     }
 }

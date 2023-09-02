@@ -17,14 +17,14 @@ namespace DoctorNotesService.Controllers
             _noteService = noteService;
         }
 
-        // GET: api/<NotesController>
+        // GET: api/Notes
         [HttpGet]
         public async Task<List<Note>> GetAsync()
         {
             return await _noteService.GetAsync();
         }
 
-        // GET api/<NotesController>/64e861db375fbf7753cbbb7e
+        // GET api/Notes/note/64e861db375fbf7753cbbb7e
         [HttpGet("note/{id}")]
         public async Task<ActionResult<Note>> GetByIdAsync(string id)
         {
@@ -38,7 +38,7 @@ namespace DoctorNotesService.Controllers
             return note;
         }
 
-        // GET api/<NotesController>/5
+        // GET api/Notes/doctor/5/notes
         [HttpGet("doctor/{doctorId}/notes")]
         public async Task<ActionResult<List<Note>>> GetByDoctorIdAsync(int doctorId)
         {
@@ -52,8 +52,9 @@ namespace DoctorNotesService.Controllers
             return notes;
         }
 
-        // GET api/<NotesController>/5
+        // GET api/Notes/patient/5/notes
         [HttpGet("patient/{patientId}/notes")]
+        [ActionName(nameof(GetByPatientIdAsync))]
         public async Task<ActionResult<List<Note>>> GetByPatientIdAsync(int patientId)
         {
             var notes = await _noteService.GetByPatientIdAsync(patientId);
@@ -66,15 +67,16 @@ namespace DoctorNotesService.Controllers
             return notes;
         }
 
-        // POST api/<NotesController>
+        // POST api/Notes
         [HttpPost]
         public async Task<ActionResult<Note>> PostAsync([FromBody] Note note)
         {
             await _noteService.CreateAsync(note);
-            return CreatedAtAction(nameof(GetAsync), new { id = note.Id }, note);
+            //return CreatedAtAction(nameof(GetAsync), new { id = note.Id }, note);
+            return CreatedAtAction(nameof(GetByPatientIdAsync), new { patientId = note.PatientId, id = note.Id }, note);
         }
 
-        // PUT api/<NotesController>/5
+        // PUT api/Notes/5
         [HttpPut("{id}")]
         public async Task<ActionResult> PutAsync(string id, [FromBody] Note note)
         {
@@ -89,7 +91,7 @@ namespace DoctorNotesService.Controllers
             return NoContent();
         }
 
-        // DELETE api/<NotesController>/5
+        // DELETE api/Notes/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(string id)
         {
