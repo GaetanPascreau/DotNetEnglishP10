@@ -4,6 +4,7 @@ using AuthenticationService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthenticationService.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230902171648_AddedDefaultUsersAndRoles")]
+    partial class AddedDefaultUsersAndRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,39 +106,35 @@ namespace AuthenticationService.Data.Migrations
                         {
                             Id = "78ceef92-e0e6-4a33-9b02-52a19351a6ac",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ec85d1c6-1996-47fc-b6d7-7167a294f937",
+                            ConcurrencyStamp = "df8412c2-fb2b-4de8-be53-386f7f9566ca",
                             Email = "admin@localhost.com",
-                            EmailConfirmed = true,
+                            EmailConfirmed = false,
                             FirstName = "System",
                             LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELoJK26DuPz3mRUL2eWm1MSTXBIjs1vsOOGa021rprMW3k2q78UZvkuZy/a85Vhn6A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEE3eCV0PJQ8etCx5+U1h3DiA6h1YjIYJZFfDo7wQEXeVCv++FDqtEhIEnyumpiyNmw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3630f072-e83a-4002-a794-848b269637ca",
+                            SecurityStamp = "9c5392ac-deb2-4f12-98b2-d1066452fd5e",
                             Specialty = "none",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@localhost.com"
+                            TwoFactorEnabled = false
                         },
                         new
                         {
                             Id = "f677742b-3b4d-454c-9719-7844a2692651",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4e112ae6-38c6-402e-a860-10d1783db6c8",
+                            ConcurrencyStamp = "067bda01-cea4-412f-94f6-742ca83572b8",
                             Email = "doctor@localhost.com",
-                            EmailConfirmed = true,
+                            EmailConfirmed = false,
                             FirstName = "System",
                             LastName = "Doctor",
                             LockoutEnabled = false,
                             NormalizedEmail = "DOCTOR@LOCALHOST.COM",
-                            NormalizedUserName = "DOCTOR@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFeby2GBndV5ak8d9A+N73eK2qNVAcFQqTqdm/69CfUvpnfQe9poECYBXN14Lun3Aw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGUhpMNGscTQw2jpQv6lPvPh5WF89r2VO+lO0i7ZJ4IXjgeIZ98IQxyRoQBWD80ODg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "81b1f2f3-c1e0-456e-890c-6df43062bb3c",
+                            SecurityStamp = "dfdcba52-e219-4614-b3cd-ff3bac91d16f",
                             Specialty = "diabetologist",
-                            TwoFactorEnabled = false,
-                            UserName = "doctor@localhost.com"
+                            TwoFactorEnabled = false
                         });
                 });
 

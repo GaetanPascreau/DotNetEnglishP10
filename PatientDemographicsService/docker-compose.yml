@@ -18,6 +18,17 @@ services:
             SA_PASSWORD: "P@ssword1"
             ACCEPT_EULA: "Y"
 
+    authenticationservice:
+        build:
+            context: ../AuthenticationService
+            dockerfile: Dockerfile
+        ports:
+          - "32769:80"
+        depends_on:
+          - sqlserver
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+
     mediscreenui: # Add the MediscreenUI service
         build:
             context: ../MediscreenUI # Specify the path to the MediscreenUI project
@@ -55,16 +66,5 @@ services:
           - "32770:80"
         depends_on:
           - mongo-express
-        environment:
-          - ASPNETCORE_ENVIRONMENT=Development
-
-    authenticationservice:
-        build:
-            context: ../AuthenticationService
-            dockerfile: Dockerfile
-        ports:
-          - "32769:80"
-        depends_on:
-          - sqlserver
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
