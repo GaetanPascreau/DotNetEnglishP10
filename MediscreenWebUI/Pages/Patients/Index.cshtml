@@ -1,0 +1,51 @@
+﻿@page
+@model MediscreenWebUI.Pages.Patients.IndexModel
+@{
+    ViewData["Title"] = "Patients List";
+}
+
+@if (User.IsInRole(Roles.Administrator))
+{
+    <a asp-page="./Create" class="btn btn-success">New Patient</a>
+}
+
+<br />
+
+<h1>Patients List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date of Birth</th>
+            <th>Sex</th>
+            <th>Home Address</th>
+            <th>Phone Number</th>
+            <th>Patient Notes</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model.Patients)
+        {
+                <tr>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.DateOfBirth.ToShortDateString()</td>
+                    <td>@patient.Sex</td>
+                    <td>@patient.HomeAdress</td>
+                    <td>@patient.PhoneNumber</td>
+                    <td>
+                        <a asp-page="../Notes/PatientNotes" asp-route-id="@patient.Id" class="btn btn-warning">Notes</a>
+                    </td>
+                    <td>
+                        @if (User.IsInRole(Roles.Administrator))
+                        {
+                            <a asp-page="./Edit" asp-route-id="@patient.Id" class="btn btn-primary">Edit Patient</a>
+                        }
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

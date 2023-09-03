@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediscreenUI", "MediscreenU
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoctorNotesService", "DoctorNotesService\DoctorNotesService.csproj", "{4D1AFAEB-3D14-4796-8BFC-7636711BAB93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService", "AuthenticationService\AuthenticationService.csproj", "{391E9648-3F54-48FD-9117-ED55140F3878}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService", "AuthenticationService\AuthenticationService.csproj", "{391E9648-3F54-48FD-9117-ED55140F3878}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediscreenWebUI", "MediscreenWebUI\MediscreenWebUI.csproj", "{A032F63D-D605-4CE8-B013-41EF78E2FB94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{391E9648-3F54-48FD-9117-ED55140F3878}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{391E9648-3F54-48FD-9117-ED55140F3878}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{391E9648-3F54-48FD-9117-ED55140F3878}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A032F63D-D605-4CE8-B013-41EF78E2FB94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A032F63D-D605-4CE8-B013-41EF78E2FB94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A032F63D-D605-4CE8-B013-41EF78E2FB94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A032F63D-D605-4CE8-B013-41EF78E2FB94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
