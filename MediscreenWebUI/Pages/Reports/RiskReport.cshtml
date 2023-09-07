@@ -1,0 +1,29 @@
+﻿@page
+@model MediscreenWebUI.Pages.Reports.RiskReportModel
+@{
+    ViewData["Title"] = "Diabetes Risk Report";
+}
+
+<br />
+
+<h1>Diabetes Risk Report</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Patient Name</th>
+            <th>Patient Age</th>
+            <th>Patient Sex</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr>
+                <td>@Model.Report.PatientName</td>
+                <td>@Model.Report.Age</td>
+                <td>@Model.Report.Sex</td>
+            </tr>
+    </tbody>
+</table>
+<div class="form-group">
+    <a asp-page="../Patients/Index" class="btn btn-dark">Back to list</a>
+</div>

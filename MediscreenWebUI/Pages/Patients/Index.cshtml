@@ -40,9 +40,12 @@
                         <a asp-page="../Notes/PatientNotes" asp-route-id="@patient.Id" class="btn btn-warning">Notes</a>
                     </td>
                     <td>
+                        <a asp-page="../Reports/RiskReport" asp-route-id="@patient.Id" class="btn btn-info">Report</a>
+                    </td>
+                    <td>
                         @if (User.IsInRole(Roles.Administrator))
                         {
-                            <a asp-page="./Edit" asp-route-id="@patient.Id" class="btn btn-primary">Edit Patient</a>
+                            <a asp-page="./Edit" asp-route-id="@patient.Id" class="btn btn-secondary">Edit Patient</a>
                         }
                     </td>
                 </tr>
