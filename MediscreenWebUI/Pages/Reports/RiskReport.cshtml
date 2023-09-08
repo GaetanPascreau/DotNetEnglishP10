@@ -24,6 +24,12 @@
                 <td>@Model.Report.Age</td>
                 <td>@Model.Report.Sex</td>
                 <td>
+                @if (Model.Report.triggerTermList.TriggerTerms is null)
+                {
+                    <span>None</span>
+                }
+                else
+                {
                     @for (var i = 0; i < Model.Report.triggerTermList.TriggerTerms.Count; i++)
                     {
                         <span>@Model.Report.triggerTermList.TriggerTerms[i]</span>
@@ -32,6 +38,7 @@
                          <span> - </span>
                         }
                     }
+                } 
                 </td>
                 <td>@Model.Report.RiskLevel</td>
             </tr>

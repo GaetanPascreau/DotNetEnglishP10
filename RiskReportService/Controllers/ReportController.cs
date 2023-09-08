@@ -50,7 +50,7 @@ namespace RiskReportService.Controllers
 
                     var triggerTerms = CountTriggerTerms(patientId);
                     Console.WriteLine($"TriggersNumber before calling DetermineRiskLEvel() = {triggerTerms.Result.TriggersCount}"); 
-                    Console.WriteLine($"Triggers found = {triggerTerms.Result.TriggerTerms[0]}, {triggerTerms.Result.TriggerTerms[1]}");
+                    Console.WriteLine($"Triggers found = {triggerTerms.Result.TriggerTerms[0]}");
                     var riskLevelTask = DetermineRiskLevel(triggerTerms.Result.TriggersCount, age, patient).Result.Value;
 
                     var report = new Report
@@ -103,8 +103,6 @@ namespace RiskReportService.Controllers
                     "Reaction", "Antibodies"
                 };
 
-                //List<String> FoundTriggers = new List<String>();
-
                 var response = await _httpClientNote.GetAsync($"api/Notes/patient/{patientId}/notes");
                 var content = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("Content = " + content);
@@ -138,12 +136,16 @@ namespace RiskReportService.Controllers
 
                     occurences[trigger] = count;
                     Console.WriteLine($"trigger = {trigger} : count = {count}");
-                    //FoundTriggers.Add(trigger);
                 }
 
                 // Calculate the total count of occurences
                 int totalCount = occurences.Values.Sum();
                 Console.WriteLine("Number of trigger terms found  = " + totalCount);
+
+                if (totalCount == 0)
+                {
+                    triggersDetected = new List<string> { "none" };
+                }
 
                 var result = new TriggerTermList
                 {
