@@ -45,14 +45,17 @@ namespace RiskReportService.Controllers
                     var content = await response.Content.ReadAsStringAsync();
                     patient = JsonConvert.DeserializeObject<PatientViewModel>(content);
 
-                    var triggersNumberTask = CountTriggerTerms(patientId);
-                    Console.WriteLine($"TriggersNumber before calling DetermineRiskLEvel() = {triggersNumberTask}"); //shows 0 ! but should be 3 for patient 1
-                    var riskLevelTask = DetermineRiskLevel(await triggersNumberTask, patient).Result.Value;
+                    // CAlculate patient's age
+                    int age = CalculateAge(patient.DateOfBirth);
+
+                    var triggersNumber = CountTriggerTerms(patientId);
+                    Console.WriteLine($"TriggersNumber before calling DetermineRiskLEvel() = {triggersNumber}"); //shows 0 ! but should be 3 for patient 1
+                    var riskLevelTask = DetermineRiskLevel(await triggersNumber, age, patient).Result.Value;
 
                     var report = new Report
                     {
                         PatientName = patient.FirstName + " " + patient.LastName,
-                        Age = CalculateAge(patient.DateOfBirth),
+                        Age = age,
                         Sex = patient.Sex,
                         RiskLevel = riskLevelTask
                     };
@@ -145,11 +148,10 @@ namespace RiskReportService.Controllers
         }
 
         [HttpGet("Report/RiskLevel")]
-        public async Task<ActionResult<string>> DetermineRiskLevel(int triggersNumber, PatientViewModel patient)
+        public async Task<ActionResult<string>> DetermineRiskLevel(int triggersNumber, int age, PatientViewModel patient)
         {
             try
             {
-                var age = CalculateAge(patient.DateOfBirth);
                 Console.WriteLine($"age calculated in DetermineRiskLevel = {age}");
                 var riskLevel = "";
                 Console.WriteLine($"TriggersNumber used in DetermineRiskLevel = {triggersNumber}");
