@@ -32,7 +32,7 @@ namespace MediscreenWebUI.Pages.Reports
                 Report = JsonConvert.DeserializeObject<ReportViewModel>(content);
                 Console.WriteLine("content = " + content);
                 Console.WriteLine("-------------------------------------------------");
-                Console.WriteLine("Report = " + Report.PatientName + ", " + Report.Age + ", " + Report.Sex);
+                Console.WriteLine("Report = " + Report.PatientName + ", " + Report.Age + ", " + Report.Sex + ", " + Report.RiskLevel);
             }
 
             Report = new ReportViewModel
@@ -40,6 +40,7 @@ namespace MediscreenWebUI.Pages.Reports
                 PatientName= Report.PatientName,
                 Age= Report.Age,
                 Sex= Report.Sex,
+                RiskLevel = Report.RiskLevel
             };
             return Page();
         }
