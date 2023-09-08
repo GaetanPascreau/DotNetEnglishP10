@@ -40,7 +40,8 @@ namespace MediscreenWebUI.Pages.Reports
                 PatientName= Report.PatientName,
                 Age= Report.Age,
                 Sex= Report.Sex,
-                RiskLevel = Report.RiskLevel
+                RiskLevel = Report.RiskLevel,
+                triggerTermList = Report.triggerTermList
             };
             return Page();
         }

@@ -45,19 +45,21 @@ namespace RiskReportService.Controllers
                     var content = await response.Content.ReadAsStringAsync();
                     patient = JsonConvert.DeserializeObject<PatientViewModel>(content);
 
-                    // CAlculate patient's age
+                    // Calculate patient's age
                     int age = CalculateAge(patient.DateOfBirth);
 
-                    var triggersNumber = CountTriggerTerms(patientId);
-                    Console.WriteLine($"TriggersNumber before calling DetermineRiskLEvel() = {triggersNumber}"); //shows 0 ! but should be 3 for patient 1
-                    var riskLevelTask = DetermineRiskLevel(await triggersNumber, age, patient).Result.Value;
+                    var triggerTerms = CountTriggerTerms(patientId);
+                    Console.WriteLine($"TriggersNumber before calling DetermineRiskLEvel() = {triggerTerms.Result.TriggersCount}"); 
+                    Console.WriteLine($"Triggers found = {triggerTerms.Result.TriggerTerms[0]}, {triggerTerms.Result.TriggerTerms[1]}");
+                    var riskLevelTask = DetermineRiskLevel(triggerTerms.Result.TriggersCount, age, patient).Result.Value;
 
                     var report = new Report
                     {
                         PatientName = patient.FirstName + " " + patient.LastName,
                         Age = age,
                         Sex = patient.Sex,
-                        RiskLevel = riskLevelTask
+                        RiskLevel = riskLevelTask,
+                        triggerTermList = triggerTerms.Result
                     };
 
                     Console.WriteLine("Report created = " + report);
@@ -91,7 +93,7 @@ namespace RiskReportService.Controllers
         }
 
         [HttpGet("Report/TriggerTerms")]
-        public async Task<int> CountTriggerTerms(int patientId)
+        public async Task<TriggerTermList> CountTriggerTerms(int patientId)
         {
             try
             {
@@ -101,6 +103,8 @@ namespace RiskReportService.Controllers
                     "Reaction", "Antibodies"
                 };
 
+                //List<String> FoundTriggers = new List<String>();
+
                 var response = await _httpClientNote.GetAsync($"api/Notes/patient/{patientId}/notes");
                 var content = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("Content = " + content);
@@ -109,11 +113,12 @@ namespace RiskReportService.Controllers
 
                 if (notes == null)
                 {
-                    return 0;
+                    return null;
                 }
 
                 // Create a dictionnary to store the ocurences
                 Dictionary<string, int> occurences = new Dictionary<string, int>();
+                List<string> triggersDetected = new List<string>();
 
                 foreach (string trigger in triggers)
                 {
@@ -124,6 +129,7 @@ namespace RiskReportService.Controllers
                         if (Regex.IsMatch(note.NoteContent, $@"\b{Regex.Escape(trigger)}\b", RegexOptions.IgnoreCase))
                         {
                             triggerFound = true;
+                            triggersDetected.Add(trigger);
                             break; // Exit the inner loop as soon as the trigger is found
                         }
                     }
@@ -132,18 +138,25 @@ namespace RiskReportService.Controllers
 
                     occurences[trigger] = count;
                     Console.WriteLine($"trigger = {trigger} : count = {count}");
+                    //FoundTriggers.Add(trigger);
                 }
 
                 // Calculate the total count of occurences
                 int totalCount = occurences.Values.Sum();
                 Console.WriteLine("Number of trigger terms found  = " + totalCount);
 
-                return totalCount;
+                var result = new TriggerTermList
+                {
+                    TriggerTerms = triggersDetected,
+                    TriggersCount = totalCount
+                };
+
+                return result;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("An error occurred : " + ex.Message);
-                return 0;
+                return null;
             }
         }
 

@@ -14,6 +14,7 @@
             <th>Patient Name</th>
             <th>Patient Age</th>
             <th>Patient Sex</th>
+            <th>Risk Factors</th>
             <th>Risk Level</th>
         </tr>
     </thead>
@@ -22,6 +23,16 @@
                 <td>@Model.Report.PatientName</td>
                 <td>@Model.Report.Age</td>
                 <td>@Model.Report.Sex</td>
+                <td>
+                    @for (var i = 0; i < Model.Report.triggerTermList.TriggerTerms.Count; i++)
+                    {
+                        <span>@Model.Report.triggerTermList.TriggerTerms[i]</span>
+                        @if (i < Model.Report.triggerTermList.TriggerTerms.Count - 1)
+                        {
+                         <span> - </span>
+                        }
+                    }
+                </td>
                 <td>@Model.Report.RiskLevel</td>
             </tr>
     </tbody>
