@@ -83,7 +83,7 @@ namespace RiskReportService.Controllers
         /// <param name="dateOfBirth"></param>
         /// <returns></returns>
         [HttpGet("Age/{dateOfBirth}")]
-        public int CalculateAge(DateTime dateOfBirth)
+         int CalculateAge(DateTime dateOfBirth)
         {
             int YearOfBirth = dateOfBirth.Year;
             int CurrentYear = DateTime.Now.Year;
@@ -117,7 +117,7 @@ namespace RiskReportService.Controllers
         /// <param name="patientId"></param>
         /// <returns></returns>
         [HttpGet("TriggerTerms/{patientId}")]
-        public async Task<TriggerTermList> CountTriggerTerms(int patientId)
+         async Task<TriggerTermList> CountTriggerTerms(int patientId)
         {
             try
             {
@@ -194,7 +194,7 @@ namespace RiskReportService.Controllers
         /// <param name="patient"></param>
         /// <returns></returns>
         [HttpGet("RiskLevel/{patientAge}/{patientSex}/{triggersNumber}")]
-        public async Task<ActionResult<string>> DetermineRiskLevel(int triggersNumber, int patientAge, char patientSex)
+        async Task<ActionResult<string>> DetermineRiskLevel(int triggersNumber, int patientAge, char patientSex)
         {
             try
             {
