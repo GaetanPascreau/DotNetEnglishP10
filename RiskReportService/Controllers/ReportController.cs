@@ -56,7 +56,7 @@ namespace RiskReportService.Controllers
                     var triggerTerms = CountTriggerTerms(patientId);
                     Console.WriteLine($"TriggersNumber before calling DetermineRiskLEvel() = {triggerTerms.Result.TriggersCount}"); 
                     Console.WriteLine($"Triggers found = {triggerTerms.Result.TriggerTerms[0]}");
-                    var riskLevelTask = DetermineRiskLevel(triggerTerms.Result.TriggersCount, age, patient).Result.Value;
+                    var riskLevelTask = DetermineRiskLevel(triggerTerms.Result.TriggersCount, age, patient.Sex).Result.Value;
 
                     var report = new Report
                     {
@@ -82,14 +82,22 @@ namespace RiskReportService.Controllers
         /// </summary>
         /// <param name="dateOfBirth"></param>
         /// <returns></returns>
-        [HttpGet("Report/Age/{dateOfBirth}")]
+        [HttpGet("Age/{dateOfBirth}")]
         public int CalculateAge(DateTime dateOfBirth)
         {
             int YearOfBirth = dateOfBirth.Year;
             int CurrentYear = DateTime.Now.Year;
+            int CurrentMonth = DateTime.Now.Month;
+            int CurrentDay = DateTime.Now.Day;
             int Age = 0;
 
-            if (dateOfBirth.Month > DateTime.Now.Month || (dateOfBirth.Month == DateTime.Now.Month && dateOfBirth.Day > DateTime.Now.Day))
+            if (dateOfBirth.Year > CurrentYear || (dateOfBirth.Year == CurrentYear && dateOfBirth.Month > CurrentMonth)
+                || (dateOfBirth.Year == CurrentYear && dateOfBirth.Month == CurrentMonth && dateOfBirth.Day > CurrentDay)) 
+            { 
+                Age = 0;
+            }
+
+            else if (dateOfBirth.Month > DateTime.Now.Month || (dateOfBirth.Month == DateTime.Now.Month && dateOfBirth.Day > DateTime.Now.Day))
             {
                 Age = CurrentYear - YearOfBirth - 1;
             }
@@ -108,7 +116,7 @@ namespace RiskReportService.Controllers
         /// </summary>
         /// <param name="patientId"></param>
         /// <returns></returns>
-        [HttpGet("Report/TriggerTerms")]
+        [HttpGet("TriggerTerms/{patientId}")]
         public async Task<TriggerTermList> CountTriggerTerms(int patientId)
         {
             try
@@ -182,21 +190,23 @@ namespace RiskReportService.Controllers
         /// Method to determine the Diabetes risk level for a given patient, according to the patient's age and sex, and the number of trigger terms.
         /// </summary>
         /// <param name="triggersNumber"></param>
-        /// <param name="age"></param>
+        /// <param name="patientAge"></param>
         /// <param name="patient"></param>
         /// <returns></returns>
-        [HttpGet("Report/RiskLevel")]
-        public async Task<ActionResult<string>> DetermineRiskLevel(int triggersNumber, int age, PatientViewModel patient)
+        [HttpGet("RiskLevel/{patientAge}/{patientSex}/{triggersNumber}")]
+        public async Task<ActionResult<string>> DetermineRiskLevel(int triggersNumber, int patientAge, char patientSex)
         {
             try
             {
-                Console.WriteLine($"age calculated in DetermineRiskLevel = {age}");
+                Console.WriteLine($"age calculated in DetermineRiskLevel = {patientAge}");
                 var riskLevel = "";
                 Console.WriteLine($"TriggersNumber used in DetermineRiskLevel = {triggersNumber}");
 
-                if (age <= 30)
+                var patientSexToString = Char.ToString(patientSex).ToUpper();
+
+                if (patientAge <= 30)
                 {
-                    if (patient.Sex == 'M')
+                    if (patientSexToString == "M")
                     {
                         if (triggersNumber >= 5)
                         {
@@ -206,12 +216,16 @@ namespace RiskReportService.Controllers
                         {
                             riskLevel = "In Danger";
                         }
+                        else if (triggersNumber > 0)
+                        {
+                            riskLevel = "Borderline";
+                        }
                         else
                         {
                             riskLevel = "None";
                         }
                     }
-                    else if (patient.Sex == 'F')
+                    else if (patientSexToString == "F")
                     {
                         if (triggersNumber >= 7)
                         {
@@ -221,13 +235,21 @@ namespace RiskReportService.Controllers
                         {
                             riskLevel = "In Danger";
                         }
+                        else if (triggersNumber > 0)
+                        {
+                            riskLevel = "Borderline";
+                        }
                         else
                         {
                             riskLevel = "None";
                         }
                     }
+                    else
+                    {
+                        return BadRequest("Please choose 'M' or 'F' for patientSex.");
+                    }
                 }
-                else if (age > 30)
+                else if (patientAge > 30)
                 {
                     if (triggersNumber >= 8)
                     {
