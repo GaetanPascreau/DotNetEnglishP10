@@ -26,6 +26,11 @@ namespace RiskReportService.Controllers
             _httpClientNote.BaseAddress = new Uri("http://noteservice:80");
         }
 
+        /// <summary>
+        /// Method to generate a Diabetes Risk Report for a given patient, showing patient's name, age and sex, the trigger terms and the risk level.
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns></returns>
         // GET Report/{patientId}
         [HttpGet("{patientId}")]
         public async Task<ActionResult<Report>> GenerateRiskReport(int patientId)
@@ -72,6 +77,11 @@ namespace RiskReportService.Controllers
             }
         }
 
+        /// <summary>
+        /// Method to calculate patient's age using its DateOfBirth and the current date
+        /// </summary>
+        /// <param name="dateOfBirth"></param>
+        /// <returns></returns>
         [HttpGet("Report/Age/{dateOfBirth}")]
         public int CalculateAge(DateTime dateOfBirth)
         {
@@ -92,6 +102,12 @@ namespace RiskReportService.Controllers
             return Age;
         }
 
+        /// <summary>
+        /// Method to count the distinct trigger terms in the list of notes for a given patient.
+        /// This method returns the number of distint terms as well as the list of terms.
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns></returns>
         [HttpGet("Report/TriggerTerms")]
         public async Task<TriggerTermList> CountTriggerTerms(int patientId)
         {
@@ -162,6 +178,13 @@ namespace RiskReportService.Controllers
             }
         }
 
+        /// <summary>
+        /// Method to determine the Diabetes risk level for a given patient, according to the patient's age and sex, and the number of trigger terms.
+        /// </summary>
+        /// <param name="triggersNumber"></param>
+        /// <param name="age"></param>
+        /// <param name="patient"></param>
+        /// <returns></returns>
         [HttpGet("Report/RiskLevel")]
         public async Task<ActionResult<string>> DetermineRiskLevel(int triggersNumber, int age, PatientViewModel patient)
         {
