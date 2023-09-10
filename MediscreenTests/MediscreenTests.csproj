@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DoctorNotesService\DoctorNotesService.csproj" />
     <ProjectReference Include="..\PatientDemographicsService\PatientDemographicsService.csproj" />
+    <ProjectReference Include="..\RiskReportService\RiskReportService.csproj" />
   </ItemGroup>
 
 </Project>

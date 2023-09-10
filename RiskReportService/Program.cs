@@ -1,4 +1,8 @@
 
+using RiskReportService.Contracts;
+using RiskReportService.Data;
+using RiskReportService.Services;
+
 namespace RiskReportService
 {
     public class Program
@@ -11,6 +15,11 @@ namespace RiskReportService
             
             builder.Services.AddControllers();
             builder.Services.AddHttpClient();
+            builder.Services.AddScoped<IAgeCalculator, AgeCalculator>(); 
+            builder.Services.AddScoped<ITriggerTermsFinder, TriggerTermsFinder>();
+            builder.Services.AddScoped<IDiabetesRiskLevelFinder, DiabetesRiskLevelFinder>();
+            builder.Services.AddSingleton<TriggerTerms>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
