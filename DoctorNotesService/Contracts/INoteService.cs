@@ -1,6 +1,6 @@
 ﻿using DoctorNotesService.Models;
 
-namespace DoctorNotesService.Services
+namespace DoctorNotesService.Contracts
 {
     public interface INoteService
     {

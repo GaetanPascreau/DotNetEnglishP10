@@ -24,7 +24,8 @@ namespace RiskReportService.Services
             {
                 // Get the list of trigger terms
                 var triggers = _triggerTerms.triggerTerms;
-
+                
+                // Get the notes for the given patient
                 var response = await _httpClientNote.GetAsync($"api/Notes/patient/{patientId}/notes");
                 var content = await response.Content.ReadAsStringAsync();
                 Console.WriteLine("Content = " + content);
@@ -46,11 +47,12 @@ namespace RiskReportService.Services
 
                     foreach (var note in notes)
                     {
+                        // We look for single-word and multi-words trigger terms isolated by spaces
                         if (Regex.IsMatch(note.NoteContent, $@"\b{Regex.Escape(trigger)}\b", RegexOptions.IgnoreCase))
                         {
                             triggerFound = true;
                             triggersDetected.Add(trigger);
-                            break; // Exit the inner loop as soon as the trigger is found
+                            break; // Exit the inner loop as soon as the trigger is found (= if found,a trigger term is counted only once, for a given patient)
                         }
                     }
 

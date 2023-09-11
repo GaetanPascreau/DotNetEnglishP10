@@ -1,4 +1,5 @@
-﻿using DoctorNotesService.Models;
+﻿using DoctorNotesService.Contracts;
+using DoctorNotesService.Models;
 using MongoDB.Driver;
 
 namespace DoctorNotesService.Services

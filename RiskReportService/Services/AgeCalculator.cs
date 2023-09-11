@@ -12,6 +12,7 @@ namespace RiskReportService.Services
             int CurrentDay = DateTime.Now.Day;
             int Age;
 
+            // If DateOfBirth occurs after the current day, set Age to 0.
             if (dateOfBirth.Year > CurrentYear || (dateOfBirth.Year == CurrentYear && dateOfBirth.Month > CurrentMonth)
                 || (dateOfBirth.Year == CurrentYear && dateOfBirth.Month == CurrentMonth && dateOfBirth.Day > CurrentDay))
             {

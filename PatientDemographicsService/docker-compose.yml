@@ -23,9 +23,9 @@ services:
             context: ../MediscreenWebUI # Specify the path to the MediscreenUI project
             dockerfile: Dockerfile
         ports:
-          - "32769:80" # Map port 32768 on the host to port 80 in the container
+          - "32769:80" # Map port 32769 on the host to port 80 in the container
         depends_on:
-          - patientservice
+          - patientservice # Depends on PatientDemographicsService to display the list of patients
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
 

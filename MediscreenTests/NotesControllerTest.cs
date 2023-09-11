@@ -1,6 +1,6 @@
-﻿using DoctorNotesService.Controllers;
+﻿using DoctorNotesService.Contracts;
+using DoctorNotesService.Controllers;
 using DoctorNotesService.Models;
-using DoctorNotesService.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

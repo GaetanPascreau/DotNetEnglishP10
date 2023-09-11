@@ -140,6 +140,7 @@ namespace MediscreenWebUI.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    // by default, add a Doctor role to a new user
                     await _userManager.AddToRoleAsync(user, Roles.Doctor);
 
                     var userId = await _userManager.GetUserIdAsync(user);

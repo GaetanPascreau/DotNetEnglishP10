@@ -1,4 +1,6 @@
-﻿namespace DoctorNotesService.Models
+﻿using DoctorNotesService.Contracts;
+
+namespace DoctorNotesService.Models
 {
     public class NoteStoreDatabaseSettings : INoteStoreDatabaseSettings
     {

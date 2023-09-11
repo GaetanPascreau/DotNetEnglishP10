@@ -1,4 +1,5 @@
 
+using DoctorNotesService.Contracts;
 using DoctorNotesService.Models;
 using DoctorNotesService.Services;
 using Microsoft.Extensions.Options;

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RiskReportService.Contracts;
+﻿using RiskReportService.Contracts;
 
 namespace RiskReportService.Services
 {

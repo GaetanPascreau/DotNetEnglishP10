@@ -172,7 +172,7 @@ namespace MediscreenTests
             var result = await controller.PutAsync(patientId, nonExistingPatient);
 
             // ASSERT
-            Assert.IsType<NotFoundResult>(result);
+            Assert.IsType<NotFoundObjectResult>(result);
         }
 
         [Fact]

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PatientDemographicsService.Contracts;
 using PatientDemographicsService.Models;
 
@@ -17,6 +15,10 @@ namespace PatientDemographicsService.Controllers
             _patientRepository = patientRepository;
         }
 
+        /// <summary>
+        /// Method to get the list with all patients
+        /// </summary>
+        /// <returns></returns>
         // GET /patients
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Patient>>> Index()
@@ -25,6 +27,11 @@ namespace PatientDemographicsService.Controllers
             return Ok(patients);
         }
 
+        /// <summary>
+        /// Method to get a single patient specified by its id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET /patients/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Patient>> Details(int id)
@@ -33,12 +40,18 @@ namespace PatientDemographicsService.Controllers
 
             if (patient == null)
             {
-                return NotFound();
+                return NotFound($"Patient with id = {id} was not found.");
             }
 
             return Ok(patient);
         }
 
+        /// <summary>
+        /// Method to update a patient specified by its id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="patient"></param>
+        /// <returns></returns>
         // PUT /patients/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] Patient patient)
@@ -48,12 +61,12 @@ namespace PatientDemographicsService.Controllers
                 return BadRequest("The 'id' in the url doesn't match the 'id' in the submitted patient object.");
             }
 
-            //First check if the patient to update exists in the db
+            // Check if the patient to update exists in the db
             var patientToUpdate = await _patientRepository.GetPatientById(id);
 
             if (patientToUpdate == null)
             {
-                return NotFound();
+                return NotFound($"Patient with id = {id} was not found.");
             }
 
             var result = await _patientRepository.UpdatePatient(patient);
@@ -64,10 +77,15 @@ namespace PatientDemographicsService.Controllers
             }
             else
             {
-                return BadRequest();
+                return BadRequest($"Patient with id = {id} couldn't be updated.");
             }   
         }
 
+        /// <summary>
+        /// Method to Create a new patient
+        /// </summary>
+        /// <param name="patient"></param>
+        /// <returns></returns>
         // POST /patients
         [HttpPost]
         public async Task<IActionResult> PostAsync(Patient patient)
@@ -77,6 +95,13 @@ namespace PatientDemographicsService.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Method to Delete a patient specified by its id
+        /// This method was created and tested, but not yet implemented in the UI.
+        /// A "Delete"button could be quickly added if needed.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // DELETE /patients/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)

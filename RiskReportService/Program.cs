@@ -37,7 +37,6 @@ namespace RiskReportService
 
             app.UseAuthorization();
 
-
             app.MapControllers();
 
             app.Run();

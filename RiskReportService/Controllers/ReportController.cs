@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RiskReportService.Contracts;
-using RiskReportService.Data;
 using RiskReportService.Models;
-using System.Net.Http;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace RiskReportService.Controllers
 {

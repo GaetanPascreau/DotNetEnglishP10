@@ -11,6 +11,7 @@ namespace PatientDemographicsService.Models
 
         public DbSet<Patient> Patients { get; set; }
 
+        // Seed patients at building
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
