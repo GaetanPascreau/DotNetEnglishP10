@@ -8,20 +8,17 @@ namespace MediscreenWebUI.Pages.Notes
 {
     public class PatientNotesModel : PageModel
     {
-        private readonly HttpClient _httpClient;
-        private readonly HttpClient _httpClient2;
+        private readonly HttpClient _httpClientNote;
+        private readonly HttpClient _httpClientPatient;
 
 
         public PatientNotesModel(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri("http://noteservice:80"); // this uses the service name defined in docker-compose.yml
-            _httpClient2 = httpClientFactory.CreateClient();
-            _httpClient2.BaseAddress = new Uri("http://patientservice:80");
+            _httpClientNote = httpClientFactory.CreateClient();
+            _httpClientNote.BaseAddress = new Uri("http://noteservice:80"); // This uses the service name defined in docker-compose.yml
+            _httpClientPatient = httpClientFactory.CreateClient();
+            _httpClientPatient.BaseAddress = new Uri("http://patientservice:80");
         }
-
-        [BindProperty]
-        public int PatientId { get; set; }
 
         public PatientViewModel Patient { get; set; }
 
@@ -29,31 +26,26 @@ namespace MediscreenWebUI.Pages.Notes
 
         public async Task OnGetAsync(int id)
         {
-            PatientId = id;
 
-            var response1 = await _httpClient2.GetAsync($"patients/{id}");
-            Console.WriteLine("Status after Patient GetAsync is " + response1.StatusCode.ToString());
-            if (response1.IsSuccessStatusCode)
+            var responsePatient = await _httpClientPatient.GetAsync($"patients/{id}");
+
+            if (responsePatient.IsSuccessStatusCode)
             {
-                Console.WriteLine("entered the Patient if statement.");
-                var content1 = await response1.Content.ReadAsStringAsync();
-                Patient = JsonConvert.DeserializeObject<PatientViewModel>(content1);
-                Console.WriteLine(content1);
+                var contentPatient = await responsePatient.Content.ReadAsStringAsync();
+                Patient = JsonConvert.DeserializeObject<PatientViewModel>(contentPatient);
+                Console.WriteLine(contentPatient);
                 Console.WriteLine("---------------------------------------------------");
-                Console.WriteLine(Patient);
             }
 
-            var response2 = await _httpClient.GetAsync($"api/notes/patient/{id}/notes");
-            Console.WriteLine("Status after Notes GetAsync is " + response2.StatusCode.ToString());
+            var responseNote = await _httpClientNote.GetAsync($"api/notes/patient/{id}/notes");
 
-            if (response2.IsSuccessStatusCode)
+            if (responseNote.IsSuccessStatusCode)
             {
                 Console.WriteLine("entered the Notes if statement.");
-                var content2 = await response2.Content.ReadAsStringAsync();
-                Notes = JsonConvert.DeserializeObject<List<NoteViewModel>>(content2);
-                Console.WriteLine(content2);
+                var contentNote = await responseNote.Content.ReadAsStringAsync();
+                Notes = JsonConvert.DeserializeObject<List<NoteViewModel>>(contentNote);
+                Console.WriteLine(contentNote);
                 Console.WriteLine("---------------------------------------------------");
-                Console.WriteLine(Notes);
             }
         }
     }

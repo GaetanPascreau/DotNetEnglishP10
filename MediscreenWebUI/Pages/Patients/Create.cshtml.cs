@@ -21,7 +21,6 @@ namespace MediscreenWebUI.Pages.Patients
             _validator = validator;
         }
 
-
         [BindProperty]
         public PatientViewModel Patient { get; set; }
 
@@ -32,24 +31,21 @@ namespace MediscreenWebUI.Pages.Patients
 
         public async Task<IActionResult> OnPostAsync(PatientViewModel patient)
         {
-            Console.WriteLine("I submitted the form !");
+            Patient = patient;
+
             ValidationResult result = await _validator.ValidateAsync(patient);
 
             if (!result.IsValid)
             {
                 result.AddToModelState(this.ModelState);
-                Console.WriteLine("Model State is invalid !");
                 return Page();
             }
 
             var content = new StringContent(JsonConvert.SerializeObject(patient), Encoding.UTF8, "application/json");
-            Console.WriteLine(content.ReadAsStringAsync());
             var response = await _httpClient.PostAsync($"patients", content);
-            Console.WriteLine("status after PostAsync is " + response.StatusCode.ToString());
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Successfull status code !");
                 return RedirectToPage("./Index");
             }
             else

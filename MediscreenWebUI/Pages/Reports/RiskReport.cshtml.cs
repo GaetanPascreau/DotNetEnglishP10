@@ -24,7 +24,6 @@ namespace MediscreenWebUI.Pages.Reports
             PatientId = id;
             Console.WriteLine("PatientId = " + PatientId);
             var response = await _httpClient.GetAsync($"Report/{PatientId}");
-            Console.WriteLine("response = " + response.StatusCode);
 
             if (response.IsSuccessStatusCode)
             {
@@ -32,7 +31,6 @@ namespace MediscreenWebUI.Pages.Reports
                 Report = JsonConvert.DeserializeObject<ReportViewModel>(content);
                 Console.WriteLine("content = " + content);
                 Console.WriteLine("-------------------------------------------------");
-                Console.WriteLine("Report = " + Report.PatientName + ", " + Report.Age + ", " + Report.Sex + ", " + Report.RiskLevel);
             }
 
             Report = new ReportViewModel
@@ -41,7 +39,7 @@ namespace MediscreenWebUI.Pages.Reports
                 Age= Report.Age,
                 Sex= Report.Sex,
                 RiskLevel = Report.RiskLevel,
-                triggerTermList = Report.triggerTermList //!= null ? Report.triggerTermList : null
+                triggerTermList = Report.triggerTermList
             };
             return Page();
         }

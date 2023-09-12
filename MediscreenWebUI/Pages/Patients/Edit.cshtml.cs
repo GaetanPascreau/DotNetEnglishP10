@@ -26,7 +26,6 @@ namespace MediscreenWebUI.Pages.Patients
             PatientId = id;
 
             var response = await _httpClient.GetAsync($"patients/{id}");
-            Console.WriteLine("status after GetAsync by Id is " + response.StatusCode.ToString());
 
             if (response.IsSuccessStatusCode)
             {
@@ -41,22 +40,17 @@ namespace MediscreenWebUI.Pages.Patients
         {
             PatientId = patient.Id;
 
-            Console.WriteLine("I submitted the form !");
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("Model State is invalid !");
                 return Page();
             }
 
             var content = new StringContent(JsonConvert.SerializeObject(patient), Encoding.UTF8, "application/json");
             Console.WriteLine(content.ReadAsStringAsync());
             var response = await _httpClient.PutAsync($"patients/{PatientId}", content);
-            Console.WriteLine("status after PutAsync is " + response.StatusCode.ToString());
-
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Successfull status code !");
                 return RedirectToPage("./Index");
             }
             else

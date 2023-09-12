@@ -10,16 +10,16 @@ namespace MediscreenWebUI.Pages.Notes
 {
     public class EditModel : PageModel
     {
-        private readonly HttpClient _httpClient1;
-        private readonly HttpClient _httpClient2;
+        private readonly HttpClient _httpClientPatient;
+        private readonly HttpClient _httpClientNote;
         private readonly IValidator<NoteViewModel> _validator;
 
         public EditModel(IHttpClientFactory httpClientFactory, IValidator<NoteViewModel> validator)
         {
-            _httpClient1 = httpClientFactory.CreateClient();
-            _httpClient1.BaseAddress = new Uri("http://patientservice:80");
-            _httpClient2 = httpClientFactory.CreateClient();
-            _httpClient2.BaseAddress = new Uri("http://noteservice:80");
+            _httpClientPatient = httpClientFactory.CreateClient();
+            _httpClientPatient.BaseAddress = new Uri("http://patientservice:80");
+            _httpClientNote = httpClientFactory.CreateClient();
+            _httpClientNote.BaseAddress = new Uri("http://noteservice:80");
             _validator = validator;
         }
 
@@ -35,27 +35,23 @@ namespace MediscreenWebUI.Pages.Notes
         {
             NoteId = id;
 
-            var response = await _httpClient2.GetAsync($"api/Notes/note/{id}");
-            Console.WriteLine("status after GetAsync by Id is " + response.StatusCode.ToString());
+            var responseNote = await _httpClientNote.GetAsync($"api/Notes/note/{id}");
 
-            if (response.IsSuccessStatusCode)
+            if (responseNote.IsSuccessStatusCode)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                Note = JsonConvert.DeserializeObject<NoteViewModel>(content);
+                var contentNote = await responseNote.Content.ReadAsStringAsync();
+                Note = JsonConvert.DeserializeObject<NoteViewModel>(contentNote);
 
-                var response2 = await _httpClient1.GetAsync($"patients/{Note.PatientId}");
-                Console.WriteLine("Status after Patient GetAsync is " + response2.StatusCode.ToString());
-                if (response2.IsSuccessStatusCode)
+                var responsePatient = await _httpClientPatient.GetAsync($"patients/{Note.PatientId}");
+
+                if (responsePatient.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("entered the Patient if statement.");
-                    var content1 = await response2.Content.ReadAsStringAsync();
-                    Patient = JsonConvert.DeserializeObject<PatientViewModel>(content1);
-                    Console.WriteLine(content1);
+                    var contentPatient = await responsePatient.Content.ReadAsStringAsync();
+                    Patient = JsonConvert.DeserializeObject<PatientViewModel>(contentPatient);
+                    Console.WriteLine($"Patient : {contentPatient}");
                     Console.WriteLine("---------------------------------------------------");
-                    Console.WriteLine(Patient);
                 }
             }
-
             return Page();
         }
 
@@ -63,27 +59,20 @@ namespace MediscreenWebUI.Pages.Notes
         {
             NoteId = note.Id;
 
-            Console.WriteLine("I submitted the form !");
             ValidationResult result = await _validator.ValidateAsync(note);
 
             if (!result.IsValid)
             {
                 result.AddToModelState(this.ModelState);
-                Console.WriteLine("Model State is invalid !");
                 return Page();
             }
 
-            var content2 = new StringContent(JsonConvert.SerializeObject(note), Encoding.UTF8, "application/json");
-            Console.WriteLine(content2.ReadAsStringAsync());
-            var response3 = await _httpClient2.PutAsync($"api/Notes/{NoteId}", content2);
-            Console.WriteLine("status after PutAsync is " + response3.StatusCode.ToString());
+            var contentNote = new StringContent(JsonConvert.SerializeObject(note), Encoding.UTF8, "application/json");
+            Console.WriteLine(contentNote.ReadAsStringAsync());
+            var responseNote = await _httpClientNote.PutAsync($"api/Notes/{NoteId}", contentNote);
 
-
-            if (response3.IsSuccessStatusCode)
+            if (responseNote.IsSuccessStatusCode)
             {
-                Console.WriteLine("Successfull status code !");
-                // return RedirectToPage("./PatientNotes/");
-                // return RedirectToPage(Request.Headers["Referer"].ToString());
                 return RedirectToPage("../Patients/Index");
             }
             else

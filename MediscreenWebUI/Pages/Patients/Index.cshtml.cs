@@ -22,7 +22,6 @@ namespace MediscreenWebUI.Pages.Patients
         public async Task OnGetAsync()
         {
                 var response = await _httpClient.GetAsync("patients");
-                Console.WriteLine("status after GetAsync is " + response.StatusCode.ToString());
 
                 if (response.IsSuccessStatusCode)
                 {
