@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DoctorNotesService.Models;
-using DoctorNotesService.Services;
+using DoctorNotesService.Repositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using PatientDemographicsService.Models;
@@ -194,7 +194,7 @@ namespace MediscreenTests
 
             // Store the notes collection and note service instance
             public IMongoCollection<Note> NotesCollection { get; private set; }
-            public NoteService NoteService { get; private set; }
+            public NoteRepository NoteService { get; private set; }
 
             public ConnectionClass()
             {
@@ -212,7 +212,7 @@ namespace MediscreenTests
                 var database = mongoClient.GetDatabase(settings.DatabaseName);
                 database.CreateCollection(collectionName);
                 NotesCollection = database.GetCollection<Note>(collectionName);
-                NoteService = new NoteService(settings, mongoClient); 
+                NoteService = new NoteRepository(settings, mongoClient); 
             }
 
             //Add a Dispose() method to close the connection when the test is over and free resources

@@ -1,7 +1,7 @@
 
 using DoctorNotesService.Contracts;
 using DoctorNotesService.Models;
-using DoctorNotesService.Services;
+using DoctorNotesService.Repositories;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -23,7 +23,7 @@ namespace DoctorNotesService
             builder.Services.AddSingleton<IMongoClient>(s =>
             new MongoClient(builder.Configuration.GetValue<string>("NoteStoreDatabaseSettings:ConnectionString")));
 
-            builder.Services.AddScoped<INoteService, NoteService>();
+            builder.Services.AddScoped<INoteRepository, NoteRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

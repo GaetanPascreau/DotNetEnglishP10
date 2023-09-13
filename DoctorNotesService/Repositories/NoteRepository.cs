@@ -2,13 +2,13 @@
 using DoctorNotesService.Models;
 using MongoDB.Driver;
 
-namespace DoctorNotesService.Services
+namespace DoctorNotesService.Repositories
 {
-    public class NoteService : INoteService
+    public class NoteRepository : INoteRepository
     {
         private readonly IMongoCollection<Note> _notes;
 
-        public NoteService(INoteStoreDatabaseSettings settings, IMongoClient mongoClient)
+        public NoteRepository(INoteStoreDatabaseSettings settings, IMongoClient mongoClient)
         {
             var database = mongoClient.GetDatabase(settings.DatabaseName);
             _notes = database.GetCollection<Note>(settings.CollectionName);

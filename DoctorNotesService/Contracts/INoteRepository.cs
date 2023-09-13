@@ -2,7 +2,7 @@
 
 namespace DoctorNotesService.Contracts
 {
-    public interface INoteService
+    public interface INoteRepository
     {
         Task<List<Note>> GetAsync();
         Task<Note> GetByIdAsync(string id);

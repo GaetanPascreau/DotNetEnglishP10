@@ -10,9 +10,9 @@ namespace DoctorNotesService.Controllers
     [ApiController]
     public class NotesController : ControllerBase
     {
-        private readonly INoteService _noteService;
+        private readonly INoteRepository _noteService;
 
-        public NotesController(INoteService noteService)
+        public NotesController(INoteRepository noteService)
         {
             _noteService = noteService;
         }

@@ -18,7 +18,7 @@ namespace MediscreenTests
         public async Task GetAsync_ShouldReturnAllNotes()
         {
             // ARRANGE
-            var mockNoteService = new Mock<INoteService>();
+            var mockNoteService = new Mock<INoteRepository>();
             var expectedNotes = new List<Note>
             {
                 new Note 
@@ -55,7 +55,7 @@ namespace MediscreenTests
         public async Task GetByIdAsync_ShouldReturnSpecifiedNote()
         {
             // ARRANGE
-            var mockNoteService = new Mock<INoteService>();
+            var mockNoteService = new Mock<INoteRepository>();
             var expectedNote = new Note
             {
                     Id = "824279A3B463F2E23AB5841D",
@@ -82,7 +82,7 @@ namespace MediscreenTests
         public async Task GetByPatientIdAsync_ShouldReturnAllNotesForSpecifiedPatient()
         {
             // ARRANGE
-            var mockNoteService = new Mock<INoteService>();
+            var mockNoteService = new Mock<INoteRepository>();
             var expectedNotes = new List<Note>
             {
                 new Note
@@ -129,7 +129,7 @@ namespace MediscreenTests
         public async Task GetByDoctorIdAsync_ShouldReturnAllNotesFromSpecifiedDoctor()
         {
             // ARRANGE
-            var mockNoteService = new Mock<INoteService>();
+            var mockNoteService = new Mock<INoteRepository>();
             var expectedNotes = new List<Note>
             {
                 new Note
@@ -176,7 +176,7 @@ namespace MediscreenTests
         public async Task PostAsync_ShouldCreateNewNote()
         {
             // ARRANGE
-            var mockNoteService = new Mock<INoteService>();
+            var mockNoteService = new Mock<INoteRepository>();
             var expectedNote = new Note
             {
                 Id = "932C1BBAF4D71C131A4DE6B2",
@@ -204,7 +204,7 @@ namespace MediscreenTests
         public async Task PutAsync_ShouldUpdateSpecifiedNote()
         {
             // ARRANGE
-            var mockNoteService = new Mock<INoteService>();
+            var mockNoteService = new Mock<INoteRepository>();
             var existingNote = new Note
             {
                 Id = "CC3FF72077E7A584A5BB7B7B",
@@ -238,7 +238,7 @@ namespace MediscreenTests
         public async Task RemoveAsync_ShouldDeleteSpecifiedNote()
         {
             // ARRANGE
-            var mockNoteService = new Mock<INoteService>();
+            var mockNoteService = new Mock<INoteRepository>();
             var existingNote = new Note
             {
                 Id = "CC3FF72077E7A584A5BB7B7B",
