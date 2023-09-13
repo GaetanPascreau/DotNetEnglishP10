@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MediscreenWebUI.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Doctor>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

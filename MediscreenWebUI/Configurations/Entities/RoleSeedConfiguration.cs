@@ -12,15 +12,21 @@ namespace MediscreenWebUI.Configurations.Entities
             builder.HasData(
                 new IdentityRole
                 {
-                    Id = "ba59f0f7-5f9a-4c17-a14f-06a48c61b172",
+                    Id = "be93fbd7-6349-4274-bb88-7a970752e53c",
                     Name = Roles.Administrator,
                     NormalizedName = Roles.Administrator.ToUpper()
                 },
                 new IdentityRole
                 {
-                    Id = "8d20b755-5c8f-40e4-9d41-39e899c15f6d",
+                    Id = "8f036251-fdf3-4f03-b890-90b06e55b014",
                     Name = Roles.Doctor,
                     NormalizedName = Roles.Doctor.ToUpper()
+                },
+                new IdentityRole
+                {
+                    Id = "46e5faf4-44cd-4809-bb6a-eef9f23ec6a0",
+                    Name = Roles.Scheduler,
+                    NormalizedName = Roles.Scheduler.ToUpper()
                 }
             );
         }

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Patients List";
 }
 
-@if (User.IsInRole(Roles.Administrator))
+@if (User.IsInRole(Roles.Administrator) || User.IsInRole(Roles.Scheduler))
 {
     <a asp-page="./Create" class="btn btn-success">New Patient</a>
 }
@@ -36,14 +36,19 @@
                     <td>@patient.Sex</td>
                     <td>@patient.HomeAdress</td>
                     <td>@patient.PhoneNumber</td>
+
+                    @if (User.IsInRole(Roles.Administrator) || User.IsInRole(Roles.Doctor))
+                    {
+                        <td>
+                            <a asp-page="../Notes/PatientNotes" asp-route-id="@patient.Id" class="btn btn-warning">Notes</a>
+                        </td>
+                        <td>
+                            <a asp-page="../Reports/RiskReport" asp-route-id="@patient.Id" class="btn btn-info">Report</a>
+                        </td>
+                    }
                     <td>
-                        <a asp-page="../Notes/PatientNotes" asp-route-id="@patient.Id" class="btn btn-warning">Notes</a>
-                    </td>
-                    <td>
-                        <a asp-page="../Reports/RiskReport" asp-route-id="@patient.Id" class="btn btn-info">Report</a>
-                    </td>
-                    <td>
-                        @if (User.IsInRole(Roles.Administrator))
+
+                    @if (User.IsInRole(Roles.Administrator) || User.IsInRole(Roles.Scheduler))
                         {
                             <a asp-page="./Edit" asp-route-id="@patient.Id" class="btn btn-secondary">Edit Patient</a>
                         }

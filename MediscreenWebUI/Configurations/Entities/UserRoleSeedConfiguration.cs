@@ -9,16 +9,21 @@ namespace MediscreenWebUI.Configurations.Entities
         public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
         {
             builder.HasData(
-                new IdentityUserRole<string>
+                new IdentityUserRole<string> // Administrator
                 {
-                    RoleId = "ba59f0f7-5f9a-4c17-a14f-06a48c61b172",
-                    UserId = "e8955c70-c7f3-4206-8f83-c21422e83988",
+                    RoleId = "be93fbd7-6349-4274-bb88-7a970752e53c",
+                    UserId = "0cc28956-1a8c-48cd-8ca0-17f63fa43488",
                 },
-                new IdentityUserRole<string>
+                new IdentityUserRole<string> // Doctor
                 {
-                    RoleId = "8d20b755-5c8f-40e4-9d41-39e899c15f6d",
-                    UserId = "21dd7821-00bc-47b6-bf1d-ed0be1f0cd77",
-                }
+                    RoleId = "8f036251-fdf3-4f03-b890-90b06e55b014",
+                    UserId = "23b3144a-e506-469a-a5f7-4df5def8a698",
+                },
+                 new IdentityUserRole<string> // Scheduler
+                 {
+                     RoleId = "46e5faf4-44cd-4809-bb6a-eef9f23ec6a0",
+                     UserId = "693eaea0-4a6c-4ff2-8f65-18be5aac2546",
+                 }
             );
         }
     }
