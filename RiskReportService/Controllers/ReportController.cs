@@ -29,12 +29,12 @@ namespace RiskReportService.Controllers
             _diabetesRiskLevelFinder = diabetesRiskLevelFinder;
         }
 
+        // GET : Report/1
         /// <summary>
         /// Method to generate a Diabetes Risk Report for a given patient, showing patient's name, age and sex, the trigger terms and the risk level.
         /// </summary>
         /// <param name="patientId"></param>
         /// <returns></returns>
-        // GET Report/{patientId}
         [HttpGet("{patientId}")]
         public async Task<ActionResult<Report>> GenerateRiskReport(int patientId)
         {

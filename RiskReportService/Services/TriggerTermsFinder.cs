@@ -22,7 +22,7 @@ namespace RiskReportService.Services
         {
             try
             {
-                // Get the list of trigger terms
+                // Get the list of trigger terms to look for in patients' notes
                 var triggers = _triggerTerms.triggerTerms;
                 
                 // Get the notes for the given patient

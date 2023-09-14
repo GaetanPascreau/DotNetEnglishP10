@@ -15,12 +15,6 @@ namespace DoctorNotesService.Repositories
 
         }
 
-        public async Task<Note> CreateAsync(Note note)
-        {
-            await _notes.InsertOneAsync(note);
-            return note;
-        }
-
         public async Task<List<Note>> GetAsync()
         {
              return await _notes.Find(note => true).ToListAsync();
@@ -41,14 +35,20 @@ namespace DoctorNotesService.Repositories
             return await _notes.Find(note => note.PatientId == id).ToListAsync();
         }
 
-        public async Task RemoveAsync(string id)
+        public async Task<Note> CreateAsync(Note note)
         {
-            await _notes.DeleteOneAsync(note => note.Id == id);
+            await _notes.InsertOneAsync(note);
+            return note;
         }
 
         public async Task UpdateAsync(string id, Note note)
         {
             await _notes.ReplaceOneAsync(note => note.Id == id, note);
+        }
+
+        public async Task RemoveAsync(string id)
+        {
+            await _notes.DeleteOneAsync(note => note.Id == id);
         }
     }
 }

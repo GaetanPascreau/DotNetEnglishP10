@@ -15,11 +15,11 @@ namespace PatientDemographicsService.Controllers
             _patientRepository = patientRepository;
         }
 
+        // GET : /patients
         /// <summary>
         /// Method to get the list with all patients
         /// </summary>
         /// <returns></returns>
-        // GET /patients
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Patient>>> Index()
         {
@@ -27,12 +27,12 @@ namespace PatientDemographicsService.Controllers
             return Ok(patients);
         }
 
+        // GET : /patients/1
         /// <summary>
         /// Method to get a single patient specified by its id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        // GET /patients/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Patient>> Details(int id)
         {
@@ -46,13 +46,13 @@ namespace PatientDemographicsService.Controllers
             return Ok(patient);
         }
 
+        // PUT : /patients/{id}
         /// <summary>
         /// Method to update a patient specified by its id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="patient"></param>
         /// <returns></returns>
-        // PUT /patients/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync(int id, [FromBody] Patient patient)
         {
@@ -81,12 +81,12 @@ namespace PatientDemographicsService.Controllers
             }   
         }
 
+        // POST : /patients
         /// <summary>
         /// Method to Create a new patient
         /// </summary>
         /// <param name="patient"></param>
         /// <returns></returns>
-        // POST /patients
         [HttpPost]
         public async Task<IActionResult> PostAsync(Patient patient)
         {
@@ -95,6 +95,7 @@ namespace PatientDemographicsService.Controllers
             return NoContent();
         }
 
+        // DELETE : /patients/{id}
         /// <summary>
         /// Method to Delete a patient specified by its id
         /// This method was created and tested, but not yet implemented in the UI.
@@ -102,7 +103,6 @@ namespace PatientDemographicsService.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        // DELETE /patients/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
